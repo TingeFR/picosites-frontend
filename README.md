@@ -1,2 +1,1 @@
-# picosites-frontend
-
+# PicoSites Frontend
