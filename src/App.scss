@@ -1,0 +1,29 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "~@blueprintjs/core/lib/scss/variables";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+$PICO_VIOLET: #4527a0;
+$PICO_VIOLET_HOVER: #8f7dc6;
+$PICO_VIOLET_ACTIVE: #311b60;
+$PICO_GREEN: #69f0ae;
+$PICO_GREEN_HOVER: #a5f6ce;
+$PICO_GREEN_ACTIVE: #4e9572;
+
+body{
+  font-family: 'Poppins', sans-serif
+}
+
+.picoButton{
+  background: $PICO_VIOLET !important;
+  color: white !important;
+  font-size: 16px;
+  &:hover {
+    background: $PICO_VIOLET_HOVER !important;
+  }
+  &:active {
+    background: $PICO_VIOLET_ACTIVE !important;
+  }
+}
