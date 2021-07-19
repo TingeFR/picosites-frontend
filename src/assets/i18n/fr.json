@@ -1,4 +1,10 @@
 {
     "locale": "fr",
-    "login": "Connexion"
+    "login": "Connexion",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "overview": "Accueil",
+    "projects": "Projets",
+    "requests": "Demandes",
+    "fields": "Champs"
 }

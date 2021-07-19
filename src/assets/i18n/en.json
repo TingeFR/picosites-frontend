@@ -1,4 +1,10 @@
 {
     "locale": "en",
-    "login": "Login"
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "overview": "Overview",
+    "projects": "Projects",
+    "requests": "Requests",
+    "fields": "Fields"
 }

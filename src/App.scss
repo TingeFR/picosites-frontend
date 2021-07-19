@@ -12,10 +12,15 @@ $PICO_GREEN: #69f0ae;
 $PICO_GREEN_HOVER: #a5f6ce;
 $PICO_GREEN_ACTIVE: #4e9572;
 
+$blue2: $PICO_VIOLET_ACTIVE;
+$blue3: $PICO_VIOLET;
+$pt-link-color: $PICO_VIOLET_ACTIVE;
+$pt-intent-primary: $PICO_VIOLET;
+@import "~@blueprintjs/core/src/blueprint.scss";
+
 body{
   font-family: 'Poppins', sans-serif
 }
-
 .picoButton{
   background: $PICO_VIOLET !important;
   color: white !important;
@@ -26,4 +31,19 @@ body{
   &:active {
     background: $PICO_VIOLET_ACTIVE !important;
   }
+}
+.picoMenu{
+  border-radius: 0px;
+  padding: 0px;
+}
+.picoMenuItem{
+  border-radius: 0px;
+  padding: 12px 24px !important;
+}
+.picoMenuDivider .bp3-heading{
+  padding-left: 8px;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  color: rgba(25, 25, 25, 0.6);
+  letter-spacing: 2px;
 }
