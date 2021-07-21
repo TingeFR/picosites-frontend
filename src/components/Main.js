@@ -37,12 +37,14 @@ function Main(props) {
       borderRight: "1px solid rgba(24, 32, 38, 0.2)"
     },
     mainSideLogo: {
+      width: 255,
       padding: 24,
       paddingLeft: 20,
     },
   }
 
   const [i18n, seti18n] = useState({})
+  const [isLoggedIn, setIsLoggedIn] = useState({})
 
   useEffect(() => {
     _i18nSetLanguage("fr")
@@ -52,6 +54,10 @@ function Main(props) {
     seti18n(props.i18n)
   }, [props.i18n])
 
+  useEffect(() => {
+    setIsLoggedIn(props.isLoggedIn)
+  }, [props.isLoggedIn])
+
   const _i18nSetLanguage = (lang) => {
     const action = { type: "I18N_SET_LANGUAGE", value: lang }
     props.dispatch(action)
@@ -60,19 +66,23 @@ function Main(props) {
   return (
     <div id="mainContainer" style={styles.mainContainer}>
       <Router style={styles.router}>
-        <div id="mainSidebar" style={styles.mainSidebar}>
-          <Menu className="picoMenu" large>
-            <div id="mainSideLogo" style={styles.mainSideLogo}><PicoSitesLogo/></div>
-            <MenuItem className="picoMenuItem" icon="home" text={i18n.overview}/>
-            <MenuDivider className="picoMenuDivider" title={i18n.projects}/>
-            <MenuItem className="picoMenuItem" text="Projet 1"/>
-            <MenuDivider/>
-            <MenuItem className="picoMenuItem" icon="chat" text={i18n.requests}/>
-            <MenuItem className="picoMenuItem" icon="edit" text={i18n.fields}/>
-          </Menu>
-        </div>
+
+        {isLoggedIn ?
+          <div id="mainSidebar" style={styles.mainSidebar}>
+            <Menu className="picoMenu" large>
+              <div id="mainSideLogo" style={styles.mainSideLogo}><PicoSitesLogo/></div>
+              <MenuItem className="picoMenuItem" icon="home" text={i18n.overview}/>
+              <MenuDivider className="picoMenuDivider" title={i18n.projects}/>
+              <MenuItem className="picoMenuItem" text="Projet 1"/>
+              <MenuDivider/>
+              <MenuItem className="picoMenuItem" icon="chat" text={i18n.requests}/>
+              <MenuItem className="picoMenuItem" icon="edit" text={i18n.fields}/>
+            </Menu>
+          </div>
+         : ""}
+
         <Switch>
-          <Route exact path="/" component={props.isLoggedIn ? "" : Login} />
+          <Route exact path="/" component={isLoggedIn ? "" : Login} />
           <Route component={NotFound}/>
         </Switch>
       </Router>

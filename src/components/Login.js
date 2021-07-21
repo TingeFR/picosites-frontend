@@ -24,7 +24,7 @@ function Login(props) {
       flexDirection: "column",
       marginTop: isDesktop ? 56 : 0,
       width: isDesktop ? 460 : "100%",
-      height: 560,
+      height: isDesktop ? 560 : "100%",
     },
     loginLogoContainer: {
       width: "100%",
