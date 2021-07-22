@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { withCookies } from "react-cookie";
 import { useMediaQuery } from 'react-responsive'
 import { constants } from '../assets/utils'
 import { connect } from 'react-redux'
-import Login from "./Login";
 import { Redirect, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import NotFound from './NotFound';
 import { Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
+import Login from "./Login";
+import NotFound from './NotFound';
 import PicoSitesLogo from '../assets/svg/PicoSitesLogo';
 
 function RedirectToHome() {
@@ -48,6 +49,7 @@ function Main(props) {
 
   useEffect(() => {
     _i18nSetLanguage("fr")
+    getData()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -58,8 +60,20 @@ function Main(props) {
     setIsLoggedIn(props.isLoggedIn)
   }, [props.isLoggedIn])
 
+  async function getData(){
+    const cookieToken = props.cookies.get("token")
+    if(cookieToken){
+      _setLoggedIn(true)
+    }
+  }
+
   const _i18nSetLanguage = (lang) => {
     const action = { type: "I18N_SET_LANGUAGE", value: lang }
+    props.dispatch(action)
+  }
+
+  const _setLoggedIn = (value) => {
+    const action = { type: "SET_LOGGEDIN", value: value }
     props.dispatch(action)
   }
 
@@ -97,4 +111,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps)(withCookies(Main));

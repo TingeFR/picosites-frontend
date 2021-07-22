@@ -6,5 +6,6 @@
     "overview": "Accueil",
     "projects": "Projets",
     "requests": "Demandes",
-    "fields": "Champs"
+    "fields": "Champs",
+    "login_error": "L'e-mail ou le mot de passe est incorrect"
 }

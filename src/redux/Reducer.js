@@ -32,7 +32,7 @@ function createReducer(state = initialState, action) {
       }
       return nextState || state
 
-    case 'SET_LOGGED_IN':
+    case 'SET_LOGGEDIN':
       nextState = {
         ...state,
         isLoggedIn: action.value

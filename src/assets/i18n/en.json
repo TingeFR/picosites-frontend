@@ -6,5 +6,6 @@
     "overview": "Overview",
     "projects": "Projects",
     "requests": "Requests",
-    "fields": "Fields"
+    "fields": "Fields",
+    "login_error": "Incorrect email or password"
 }
