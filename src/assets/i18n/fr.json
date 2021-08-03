@@ -6,6 +6,8 @@
     "overview": "Accueil",
     "projects": "Projets",
     "requests": "Demandes",
-    "fields": "Champs",
-    "login_error": "L'e-mail ou le mot de passe est incorrect"
+    "content": "Contenu",
+    "login_error": "L'e-mail ou le mot de passe est incorrect",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
 }

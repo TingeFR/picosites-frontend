@@ -6,6 +6,8 @@
     "overview": "Overview",
     "projects": "Projects",
     "requests": "Requests",
-    "fields": "Fields",
-    "login_error": "Incorrect email or password"
+    "content": "Content",
+    "login_error": "Incorrect email or password",
+    "settings": "Settings",
+    "logout": "Log out"
 }

@@ -1,4 +1,6 @@
 export const constants = {
   DESKTOP_TO_MOBILE: 1224,
   BIG_SCREEN: 1824,
+  SIDEBAR_SIZE: 256,
+  LOGOBAR_SIZE: 70,
 }

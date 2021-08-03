@@ -4,7 +4,8 @@ const i18n_fr = require("../assets/i18n/fr.json")
 const initialState = {
   i18n: {},
   isLoading: true,
-  isLoggedIn: false,
+  isLoggedIn: undefined,
+  user: {},
 }
 
 function createReducer(state = initialState, action) {
@@ -36,6 +37,13 @@ function createReducer(state = initialState, action) {
       nextState = {
         ...state,
         isLoggedIn: action.value
+      }
+      return nextState || state
+
+    case 'SET_USER':
+      nextState = {
+        ...state,
+        user: action.value
       }
       return nextState || state
 

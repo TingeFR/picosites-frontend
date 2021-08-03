@@ -79,6 +79,7 @@ function Login(props) {
     })
     if(getAuthLoginResult){
       props.cookies.set("token", getAuthLoginResult.token, {path: "/"});
+      props.cookies.set("user", email, {path: "/"});
       window.location.href = "/"
     }
   }
