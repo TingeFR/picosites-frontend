@@ -2,6 +2,7 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 @import "~@blueprintjs/core/lib/scss/variables";
+@import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
@@ -11,11 +12,25 @@ $PICO_VIOLET_ACTIVE: #311b60;
 $PICO_GREEN: #69f0ae;
 $PICO_GREEN_HOVER: #a5f6ce;
 $PICO_GREEN_ACTIVE: #4e9572;
+$PICO_VIOLET_FADED: #4527a032;
+$PICO_VIOLET_HARD_FADED: #4527a016;
+
+$blue2: $PICO_VIOLET_FADED;
+$blue3: $PICO_VIOLET;
+$pt-link-color: $PICO_VIOLET_ACTIVE;
+$pt-intent-primary: $PICO_VIOLET_HARD_FADED;
+@import "~@blueprintjs/core/src/blueprint.scss";
 
 body{
   font-family: 'Poppins', sans-serif
 }
-
+input, button, textarea, :focus {
+  outline: none;
+}
+.bp3-popover2{
+  border-radius: 0px;
+  box-shadow: none;
+}
 .picoButton{
   background: $PICO_VIOLET !important;
   color: white !important;
@@ -26,4 +41,20 @@ body{
   &:active {
     background: $PICO_VIOLET_ACTIVE !important;
   }
+}
+.picoMenu{
+  border-radius: 0px;
+  padding: 0px;
+}
+.picoMenuItem{
+  color: black !important;
+  border-radius: 0px;
+  padding: 12px 24px !important;
+}
+.picoMenuDivider .bp3-heading{
+  padding-left: 8px;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  color: rgba(25, 25, 25, 0.6);
+  letter-spacing: 2px;
 }
