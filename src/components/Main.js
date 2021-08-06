@@ -73,7 +73,6 @@ function Main(props) {
   useEffect(() => {
     _i18nSetLanguage("fr")
     getData()
-    console.log(process.env.NODE_ENV)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
