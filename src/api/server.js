@@ -5,9 +5,9 @@ if(process.env.NODE_ENV === "production"){
   prefix = "/api"
 }
 
-export async function getAuthLogin(email, password){
-  const params = { email, password }
-  const res = await axios.get(prefix + "/auth/login", { params })
+export async function postAuthLogin(email, password){
+  const body = {email, password}
+  const res = await axios.post(prefix + "/auth/login", body)
   return res.data
 }
 

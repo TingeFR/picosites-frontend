@@ -7,7 +7,7 @@ import { Button, Callout, Card, Elevation, InputGroup } from "@blueprintjs/core"
 import { Text, Colors } from "@blueprintjs/core";
 import PicoSitesLogo from "../assets/svg/PicoSitesLogo"
 
-import { getAuthLogin } from '../api/server';
+import { postAuthLogin } from '../api/server';
 
 function Login(props) {
 
@@ -74,11 +74,11 @@ function Login(props) {
   }
 
   async function handleLogin(){
-    const getAuthLoginResult = await getAuthLogin(email, password).catch((e) => {
+    const postAuthLoginResult = await postAuthLogin(email, password).catch((e) => {
       setError(true)
     })
-    if(getAuthLoginResult){
-      props.cookies.set("token", getAuthLoginResult.token, {path: "/"});
+    if(postAuthLoginResult){
+      props.cookies.set("token", postAuthLoginResult.token, {path: "/"});
       props.cookies.set("user", email, {path: "/"});
       window.location.href = "/"
     }
