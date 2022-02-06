@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { withCookies } from "react-cookie";
 import { useMediaQuery } from 'react-responsive';
 import { constants } from '../assets/utils'
 import { connect } from 'react-redux'
-import { Icon, Text, Button, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
+import { Icon, Text, Button, Menu, MenuDivider, MenuItem, Breadcrumbs } from '@blueprintjs/core';
 import { Classes, Popover2 } from "@blueprintjs/popover2";
 
 function TopBar(props) {
@@ -13,20 +14,14 @@ function TopBar(props) {
   const styles = {
     topBar: {
       width: "100%",
-      height: 96,
+      height: isDesktop ? 96 : 48,
       display: "flex",
     },
     topText: {
       height: 40,
       lineHeight: "40px",
       margin: 36,
-      marginTop: 24,
-    },
-    topTextMini: {
-      height: 24,
-      lineHeight: "24px",
-      margin: 24,
-      marginTop: 18,
+      marginTop: isDesktop ? 32 : 16,
     },
     userItem: {
       width: 240,
@@ -53,7 +48,7 @@ function TopBar(props) {
     setUser(props.user)
   }, [props.user])
 
-  const handleClick = () => {
+  const handlePopMenu = () => {
     setPopMenu(!popMenu)
   }
 
@@ -67,13 +62,27 @@ function TopBar(props) {
     window.location.href = "/"
   }
 
+  const handleClick = (event, path) => {
+    event.preventDefault()
+    props.history.push(path)
+  }
+
+  const breadcrumbItem = text => {
+    return <h5 style={{fontSize: isDesktop ? 24 : 16, textOverflow: "ellipsis"}}>{text}</h5>
+  }
+
   return (
     <div id="topbar" style={styles.topBar}>
-      {isDesktop ?
-        <Text tagName="h2" style={styles.topText}>{i18n.projects}</Text>
-      :
-        <Text tagName="h3" style={styles.topTextMini}>{i18n.projects}</Text>
-      }
+      <div style={styles.topText}>
+      <Breadcrumbs
+        collapseFrom="start"
+        minVisibleItems={1}
+        items={
+          !props.item ? [{text: breadcrumbItem(props.title), href: "/dashboard"}] :
+          [{text: breadcrumbItem(props.title), href: "/dashboard", onClick: event => handleClick(event, "/dashboard")}, {text: breadcrumbItem(props.item)}]
+        }
+      />
+      </div>
       <div style={{flexGrow: 1}}></div>
       {isDesktop ?
         <Popover2
@@ -89,7 +98,7 @@ function TopBar(props) {
             </Menu>
           }
         >
-          <div id="userItem" style={styles.userItem} onClick={handleClick}>
+          <div id="userItem" style={styles.userItem} onClick={handlePopMenu}>
             <Icon icon="user" color="#311b60" size={30}/>
             <Text style={{marginLeft: 12}}>{`${user.firstName} ${user.lastName}`}</Text>
             <Icon icon={popMenu ? "caret-up" : "caret-down"} style={{marginLeft: 8}}/>
@@ -109,4 +118,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(withCookies(TopBar));
+export default connect(mapStateToProps)(withCookies(withRouter(TopBar)));

@@ -61,7 +61,11 @@ function PicoMenu(props) {
     <Menu className="picoMenu" large style={styles.menu}>
       <MenuItem className="picoMenuItem" icon="home" text={i18n.overview} onClick={() => {handleClick('/dashboard')}} active={view === "/" || view === "/dashboard"}/>
       <MenuDivider className="picoMenuDivider" title={i18n.projects}/>
-      <MenuItem className="picoMenuItem" text="Projet 1" onClick={() => {handleClick('/projects/1')}} active={view === "/projects/1"}/>
+      {
+        user ? user.projects ? user.projects.map(project => 
+          <MenuItem className="picoMenuItem" text={project.name} onClick={() => {handleClick(`/projects/${project.id}`)}} active={view === `/projects/${project.id}`}/>
+        ) : "" : ""
+      }
       <MenuDivider/>
       <MenuItem className="picoMenuItem" icon="chat" text={i18n.requests} onClick={() => {handleClick('/requests')}} active={view === "/requests"}/>
       <MenuItem className="picoMenuItem" icon="style" text={i18n.content} onClick={() => {handleClick('/content')}} active={view === "/content"}/>

@@ -7,12 +7,16 @@ import { Redirect, BrowserRouter as Router, Switch, Route, withRouter } from 're
 import { Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
 import { HamburgerSlider } from 'react-animated-burgers';
 import { Transition } from 'react-transition-group';
-import Login from "./Login";
-import NotFound from './NotFound';
 import PicoSitesLogo from '../assets/svg/PicoSitesLogo';
-import Dashboard from './Dashboard';
 import { getUserByEMail } from '../api/server';
 import PicoMenu from './PicoMenu';
+import moment from 'moment';
+import 'moment/locale/en-gb';
+import 'moment/locale/fr';
+import Login from "./Login";
+import NotFound from './NotFound';
+import Dashboard from './Dashboard';
+import Project from './Project';
 
 const RedirectToHome = () => <Redirect to="/"/>
 
@@ -72,11 +76,13 @@ function Main(props) {
 
   useEffect(() => {
     _i18nSetLanguage("fr")
+    moment.locale("fr")
     getData()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     seti18n(props.i18n)
+    moment.locale(props.i18n.locale)
   }, [props.i18n])
 
   useEffect(() => {
@@ -180,6 +186,7 @@ function Main(props) {
         <Switch>
           <Route exact path="/" component={isLoggedIn ? Dashboard : Login} />
           <Route path="/dashboard" component={isLoggedIn === undefined ? "" : isLoggedIn === true ? Dashboard : RedirectToHome} />
+          <Route path="/projects/:projectId" component={isLoggedIn === undefined ? "" : isLoggedIn === true ? Project : RedirectToHome} />
           <Route component={isLoggedIn === undefined ? "" : isLoggedIn === true ? NotFound : RedirectToHome} />
         </Switch>
       </Router>
