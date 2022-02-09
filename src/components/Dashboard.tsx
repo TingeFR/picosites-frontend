@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { CSSProperties, FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive'
 import { constants } from '../assets/utils'
-import { connect } from 'react-redux'
+import { connect, DispatchProp } from 'react-redux'
 import { Text, Colors, Spinner, Card, H5, Tag, ButtonGroup, Divider } from "@blueprintjs/core";
-import TopBar from './TopBar';
 import moment from 'moment';
+import { i18n } from '../assets/i18n/i18n';
+import { User } from '../api/user';
+import { i18n_fr } from '../assets/i18n/i18n_fr';
+import { Project } from '../api/project';
+import TopBar from './TopBar';
 
-function Dashboard(props) {
+interface DashboardProps {
+  i18n: i18n,
+  user: User,
+  isLoading: boolean,
+}
+
+const Dashboard:FC<DashboardProps & DispatchProp> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
-  const styles = {
+  const styles: {[key: string]: CSSProperties} = {
     dashboard: {
       width: isDesktop ? `calc(100vw - ${constants.SIDEBAR_SIZE}px)` : "100%",
       marginLeft: isDesktop ? constants.SIDEBAR_SIZE : 0,
@@ -22,7 +32,7 @@ function Dashboard(props) {
       height: isDesktop ? "100%" : `calc(100vh - ${constants.LOGOBAR_SIZE}px)`,
       overflowY: "auto",
     },
-    spinnerContainer: {
+    spinnerContainer: {
       width: "100%",
       height: "100%",
       display: "flex",
@@ -31,9 +41,10 @@ function Dashboard(props) {
     },
   }
 
-  const [i18n, seti18n] = useState({})
-  const [user, setUser] = useState({})
-  const [isLoading, setIsLoading] = useState(undefined)
+  const [i18n, seti18n] = useState(i18n_fr)
+  const [user, setUser] = useState<User>()
+  const [isLoading, setIsLoading] = useState(true)
+  let navigate = useNavigate()
 
   useEffect(() => {
     seti18n(props.i18n)
@@ -47,17 +58,17 @@ function Dashboard(props) {
     setIsLoading(props.isLoading)
   }, [props.isLoading])
 
-  const handleClick = path => {
-    props.history.push(path)
+  const handleClick = (path: string) => {
+    navigate(path)
   }
 
-  const isProjectActive = project => {
+  const isProjectActive = (project: Project) => {
     const today = moment()
     const diff = today.diff(project.expirationDate)
     return(diff < 0)
   }
 
-  const expirationPhrase = project => {
+  const expirationPhrase = (project: Project) => {
     const test = moment(project.expirationDate)
     return `${isProjectActive(project) ? i18n.expires_on : i18n.expired_on} ${test.format('LL')}`
   }
@@ -66,10 +77,9 @@ function Dashboard(props) {
     <div id="dashboard" style={styles.dashboard}>
       {isDesktop ? "" : <div id="bar" style={{width: "100vw", height: constants.LOGOBAR_SIZE}}></div>}
       <div id="dashboardContainer" style={styles.dashboardContainer}>
-        {isLoading === undefined ? "" :
-          isLoading === false ?
+          {isLoading === false ?
             <div>
-              <TopBar title={i18n.projects}/>
+              <TopBar title={i18n.projects} />
               {
                 user ? user.projects ? user.projects.map(project => 
                   <Card interactive key={project.id} style={{margin: 24, padding: 0}} onClick={() => {handleClick(`/projects/${project.id}`)}}>
@@ -97,7 +107,7 @@ function Dashboard(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
   return {
     i18n: state.i18n,
     isLoading: state.isLoading,
@@ -105,4 +115,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(withRouter(Dashboard));
+export default connect(mapStateToProps)(Dashboard);

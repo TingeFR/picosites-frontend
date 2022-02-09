@@ -1,4 +1,6 @@
-function PicoSitesIcon(props) {
+import { CustomIconProps } from "./Icon";
+
+const PicoSitesIcon = (props: CustomIconProps) => {
   return (
     <div style={props.style}>
       <svg viewBox="34.832 80.893 403.082 72.177" width="403.082" height="72.177" xmlns="http://www.w3.org/2000/svg">

@@ -1,0 +1,17 @@
+export interface i18n {
+  locale: string,
+  login: string,
+  email: string,
+  password: string,
+  overview: string,
+  projects: string,
+  requests: string,
+  content: string,
+  login_error: string,
+  settings: string,
+  logout: string,
+  active: string,
+  expired: string,
+  expired_on: string,
+  expires_on: string,
+}

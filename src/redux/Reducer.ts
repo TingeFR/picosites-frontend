@@ -1,14 +1,15 @@
-const i18n_en = require("../assets/i18n/en.json")
-const i18n_fr = require("../assets/i18n/fr.json")
+import { i18n_en } from "../assets/i18n/i18n_en"
+import { i18n_fr } from "../assets/i18n/i18n_fr"
 
+// IS LOGGED IN = 0: Non défini | 1: Accès refusé | 2: Accès autorisé
 const initialState = {
-  i18n: {},
+  i18n: i18n_fr,
   isLoading: true,
-  isLoggedIn: undefined,
+  isLoggedIn: 0,
   user: {},
 }
 
-function createReducer(state = initialState, action) {
+const createReducer = (state = initialState, action: any) => {
   let nextState
   switch (action.type) {
     case 'I18N_SET_LANGUAGE':

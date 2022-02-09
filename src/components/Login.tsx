@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { withCookies } from "react-cookie";
+import { CSSProperties, FC, useEffect, useState } from 'react';
+import { ReactCookieProps, withCookies } from "react-cookie";
 import { useMediaQuery } from 'react-responsive'
 import { constants } from '../assets/utils'
-import { connect } from 'react-redux'
+import { connect, DispatchProp } from 'react-redux'
 import { Button, Callout, Card, Elevation, InputGroup } from "@blueprintjs/core";
 import { Text, Colors } from "@blueprintjs/core";
 import PicoSitesLogo from "../assets/svg/PicoSitesLogo"
 
 import { postAuthLogin } from '../api/server';
+import { i18n } from '../assets/i18n/i18n';
+import { i18n_fr } from '../assets/i18n/i18n_fr';
 
-function Login(props) {
+interface LoginProps {
+  i18n: i18n
+}
+
+const Login:FC<LoginProps & DispatchProp & ReactCookieProps> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
-  const styles = {
+  const styles: {[key: string]: CSSProperties} = {
     login: {
       width: "100%",
       height: "100%",
@@ -54,7 +60,7 @@ function Login(props) {
     }
   }
 
-  const [i18n, seti18n] = useState({})
+  const [i18n, seti18n] = useState(i18n_fr)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(false)
@@ -63,28 +69,28 @@ function Login(props) {
     seti18n(props.i18n)
   }, [props.i18n])
 
-  const changeEmail = event => {
+  const changeEmail = (event: any) => {
     setError(false)
     setEmail(event.target.value)
   }
 
-  const changePassword = event => {
+  const changePassword = (event: any) => {
     setError(false)
     setPassword(event.target.value)
   }
 
-  async function handleLogin(){
+  const handleLogin = async () => {
     const postAuthLoginResult = await postAuthLogin(email, password).catch((e) => {
       setError(true)
     })
     if(postAuthLoginResult){
-      props.cookies.set("token", postAuthLoginResult.token, {path: "/"});
-      props.cookies.set("user", email, {path: "/"});
+      props.cookies?.set("token", postAuthLoginResult.token, {path: "/"});
+      props.cookies?.set("user", email, {path: "/"});
       window.location.href = "/"
     }
   }
 
-  async function handleLoginByKey(event){
+  const handleLoginByKey = async (event: any) => {
     if(event.key === "Enter"){
       handleLogin()
     }
@@ -107,7 +113,7 @@ function Login(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
   return {
     i18n: state.i18n,
   }

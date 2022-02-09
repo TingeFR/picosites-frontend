@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import { CSSProperties, FC, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive'
 import { constants } from '../assets/utils'
-import { connect } from 'react-redux'
+import { connect, DispatchProp } from 'react-redux'
 import { Colors } from "@blueprintjs/core";
+import { i18n } from '../assets/i18n/i18n';
+import { i18n_fr } from '../assets/i18n/i18n_fr';
 
-function NotFound(props) {
+interface NotFoundProps {
+  i18n: i18n
+}
+
+const NotFound:FC<NotFoundProps & DispatchProp> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
-  const styles = {
+  const styles: {[key: string]: CSSProperties} = {
     notfound: {
       width: isDesktop ? `calc(100vw - ${constants.SIDEBAR_SIZE}px)` : "100%",
       marginLeft: isDesktop ? constants.SIDEBAR_SIZE : 0,
@@ -21,7 +27,7 @@ function NotFound(props) {
     },
   }
 
-  const [i18n, seti18n] = useState({})
+  const [i18n, seti18n] = useState(i18n_fr)
 
   useEffect(() => {
     seti18n(props.i18n)
@@ -37,7 +43,7 @@ function NotFound(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
   return {
     i18n: state.i18n
   }

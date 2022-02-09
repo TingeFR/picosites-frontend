@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { withCookies } from "react-cookie";
-import { withRouter } from 'react-router-dom';
+import { CSSProperties, FC, useEffect, useState } from 'react';
+import { ReactCookieProps, withCookies } from "react-cookie";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { constants } from '../assets/utils'
-import { connect } from 'react-redux'
+import { connect, DispatchProp } from 'react-redux'
 import { Menu, MenuDivider, MenuItem, Icon, Text } from '@blueprintjs/core';
+import { i18n } from '../assets/i18n/i18n';
+import { User } from '../api/user';
+import { i18n_fr } from '../assets/i18n/i18n_fr';
 
-function PicoMenu(props) {
+interface PicoMenuProps {
+  i18n: i18n,
+  user: User,
+  variant: 'desktop' | 'mobile',
+  menuClose?: () => void
+}
+
+const PicoMenu:FC<PicoMenuProps & DispatchProp & ReactCookieProps> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
-  const styles = {
+  const styles: {[key: string]: CSSProperties} = {
     menu: {
       width: "100%",
       height: "100%",
@@ -28,9 +38,11 @@ function PicoMenu(props) {
     },
   }
 
-  const [i18n, seti18n] = useState({})
-  const [user, setUser] = useState({})
+  const [i18n, seti18n] = useState(i18n_fr)
+  const [user, setUser] = useState<User>()
   const [view, setView] = useState("")
+  let navigate = useNavigate()
+  let location = useLocation()
 
   useEffect(() => {
     seti18n(props.i18n)
@@ -41,19 +53,21 @@ function PicoMenu(props) {
   }, [props.user])
 
   useEffect(() => {
-    setView(props.location.pathname)
-  }, [props.location])
+    setView(location.pathname)
+  }, [location])
 
-  const handleClick = path => {
-    props.history.push(path)
+  const handleClick = (path: string) => {
+    navigate(path)
     if(props.variant === "mobile"){
-      props.menuClose()
+      if(props.menuClose){
+        props.menuClose()
+      }
     }
   }
 
   const handleLogout = () => {
-    props.cookies.remove("token")
-    props.cookies.remove("user")
+    props.cookies?.remove("token")
+    props.cookies?.remove("user")
     window.location.href = "/"
   }
 
@@ -76,7 +90,7 @@ function PicoMenu(props) {
           <MenuDivider/>
           <div id="userItem" style={styles.userItem}>
             <Icon icon="user" color="#311b60" size={30}/>
-            <Text style={{marginLeft: 12}}>{`${user.firstName} ${user.lastName}`}</Text>
+            <Text style={{marginLeft: 12}}>{`${user?.firstName} ${user?.lastName}`}</Text>
           </div>
           <MenuItem className="picoMenuItem" icon="cog" text={i18n.settings}/>
           <MenuItem className="picoMenuItem" icon="log-out" text={i18n.logout} onClick={() => handleLogout()}/>
@@ -86,11 +100,11 @@ function PicoMenu(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
   return {
     i18n: state.i18n,
     user: state.user,
   }
 }
 
-export default connect(mapStateToProps)(withRouter(withCookies(PicoMenu)));
+export default connect(mapStateToProps)(withCookies(PicoMenu));

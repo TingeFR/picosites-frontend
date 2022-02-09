@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { withCookies } from "react-cookie";
+import { CSSProperties, FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ReactCookieProps, withCookies } from "react-cookie";
 import { useMediaQuery } from 'react-responsive';
 import { constants } from '../assets/utils'
-import { connect } from 'react-redux'
-import { Icon, Text, Button, Menu, MenuDivider, MenuItem, Breadcrumbs } from '@blueprintjs/core';
-import { Classes, Popover2 } from "@blueprintjs/popover2";
+import { connect, DispatchProp } from 'react-redux'
+import { Icon, Text, Menu, MenuItem, Breadcrumbs } from '@blueprintjs/core';
+import { Popover2 } from "@blueprintjs/popover2";
+import { i18n } from '../assets/i18n/i18n';
+import { User } from '../api/user';
+import { i18n_fr } from '../assets/i18n/i18n_fr';
 
-function TopBar(props) {
+interface TopBarProps {
+  i18n: i18n,
+  user: User,
+  title?: string,
+  item?: string,
+}
+
+const TopBar:FC<TopBarProps & DispatchProp & ReactCookieProps> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
-  const styles = {
+  const styles: {[key: string]: CSSProperties} = {
     topBar: {
       width: "100%",
       height: isDesktop ? 96 : 48,
@@ -36,9 +46,10 @@ function TopBar(props) {
     },
   }
 
-  const [i18n, seti18n] = useState({})
-  const [user, setUser] = useState({})
+  const [i18n, seti18n] = useState(i18n_fr)
+  const [user, setUser] = useState<User>()
   const [popMenu, setPopMenu] = useState(false)
+  let navigate = useNavigate()
 
   useEffect(() => {
     seti18n(props.i18n)
@@ -52,22 +63,22 @@ function TopBar(props) {
     setPopMenu(!popMenu)
   }
 
-  const handleInteraction = nextOpenState => {
-    setPopMenu(nextOpenState)
+  const handleInteraction = (nextState: boolean) => {
+    setPopMenu(nextState)
   }
 
   const handleLogout = () => {
-    props.cookies.remove("token")
-    props.cookies.remove("user")
+    props.cookies?.remove("token")
+    props.cookies?.remove("user")
     window.location.href = "/"
   }
 
-  const handleClick = (event, path) => {
+  const handleClick = (event: any, path: string) => {
     event.preventDefault()
-    props.history.push(path)
+    navigate(path)
   }
 
-  const breadcrumbItem = text => {
+  const breadcrumbItem = (text: string) => {
     return <h5 style={{fontSize: isDesktop ? 24 : 16, textOverflow: "ellipsis"}}>{text}</h5>
   }
 
@@ -78,8 +89,8 @@ function TopBar(props) {
         collapseFrom="start"
         minVisibleItems={1}
         items={
-          !props.item ? [{text: breadcrumbItem(props.title), href: "/dashboard"}] :
-          [{text: breadcrumbItem(props.title), href: "/dashboard", onClick: event => handleClick(event, "/dashboard")}, {text: breadcrumbItem(props.item)}]
+          !props.item ? [{text: breadcrumbItem(props.title ?? ""), href: "/dashboard"}] :
+          [{text: breadcrumbItem(props.title ?? ""), href: "/dashboard", onClick: event => handleClick(event, "/dashboard")}, {text: breadcrumbItem(props.item)}]
         }
       />
       </div>
@@ -100,7 +111,7 @@ function TopBar(props) {
         >
           <div id="userItem" style={styles.userItem} onClick={handlePopMenu}>
             <Icon icon="user" color="#311b60" size={30}/>
-            <Text style={{marginLeft: 12}}>{`${user.firstName} ${user.lastName}`}</Text>
+            <Text style={{marginLeft: 12}}>{`${user?.firstName} ${user?.lastName}`}</Text>
             <Icon icon={popMenu ? "caret-up" : "caret-down"} style={{marginLeft: 8}}/>
           </div>
         </Popover2>
@@ -111,11 +122,11 @@ function TopBar(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
   return {
     i18n: state.i18n,
     user: state.user,
   }
 }
 
-export default connect(mapStateToProps)(withCookies(withRouter(TopBar)));
+export default connect(mapStateToProps)(withCookies(TopBar));
