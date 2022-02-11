@@ -1,21 +1,21 @@
 import { CSSProperties, FC, useEffect, useState } from 'react';
 import { ReactCookieProps, withCookies } from "react-cookie";
 import { useMediaQuery } from 'react-responsive'
-import { constants } from '../assets/utils'
+import { constants } from '../../assets/utils'
 import { connect, DispatchProp } from 'react-redux'
 import { Button, Callout, Card, Elevation, InputGroup } from "@blueprintjs/core";
 import { Text, Colors } from "@blueprintjs/core";
-import PicoSitesLogo from "../assets/svg/PicoSitesLogo"
+import PicoSitesLogo from "../../assets/svg/PicoSitesLogo"
 
-import { postAuthLogin } from '../api/server';
-import { i18n } from '../assets/i18n/i18n';
-import { i18n_fr } from '../assets/i18n/i18n_fr';
+import { postAuthLogin } from '../../api/server';
+import { i18n } from '../../assets/i18n/i18n';
+import { i18n_fr } from '../../assets/i18n/i18n_fr';
 
-interface LoginProps {
+interface LoginViewProps {
   i18n: i18n
 }
 
-const Login:FC<LoginProps & DispatchProp & ReactCookieProps> = (props) => {
+const LoginView:FC<LoginViewProps & DispatchProp & ReactCookieProps> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
@@ -64,6 +64,10 @@ const Login:FC<LoginProps & DispatchProp & ReactCookieProps> = (props) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(false)
+
+  useEffect(() => {
+    document.title = "PicoSites"
+  }, [])
 
   useEffect(() => {
     seti18n(props.i18n)
@@ -119,4 +123,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default connect(mapStateToProps)(withCookies(Login));
+export default connect(mapStateToProps)(withCookies(LoginView));

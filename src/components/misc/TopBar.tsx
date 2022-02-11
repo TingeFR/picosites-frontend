@@ -2,13 +2,13 @@ import { CSSProperties, FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactCookieProps, withCookies } from "react-cookie";
 import { useMediaQuery } from 'react-responsive';
-import { constants } from '../assets/utils'
+import { constants } from '../../assets/utils'
 import { connect, DispatchProp } from 'react-redux'
 import { Icon, Text, Menu, MenuItem, Breadcrumbs } from '@blueprintjs/core';
 import { Popover2 } from "@blueprintjs/popover2";
-import { i18n } from '../assets/i18n/i18n';
-import { User } from '../api/user';
-import { i18n_fr } from '../assets/i18n/i18n_fr';
+import { i18n } from '../../assets/i18n/i18n';
+import { User } from '../../api/types/user';
+import { i18n_fr } from '../../assets/i18n/i18n_fr';
 
 interface TopBarProps {
   i18n: i18n,

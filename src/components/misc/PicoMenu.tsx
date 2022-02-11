@@ -2,12 +2,12 @@ import { CSSProperties, FC, useEffect, useState } from 'react';
 import { ReactCookieProps, withCookies } from "react-cookie";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import { constants } from '../assets/utils'
+import { constants } from '../../assets/utils'
 import { connect, DispatchProp } from 'react-redux'
 import { Menu, MenuDivider, MenuItem, Icon, Text } from '@blueprintjs/core';
-import { i18n } from '../assets/i18n/i18n';
-import { User } from '../api/user';
-import { i18n_fr } from '../assets/i18n/i18n_fr';
+import { i18n } from '../../assets/i18n/i18n';
+import { User } from '../../api/types/user';
+import { i18n_fr } from '../../assets/i18n/i18n_fr';
 
 interface PicoMenuProps {
   i18n: i18n,
@@ -73,7 +73,7 @@ const PicoMenu:FC<PicoMenuProps & DispatchProp & ReactCookieProps> = (props) => 
 
   return (
     <Menu className="picoMenu" large style={styles.menu}>
-      <MenuItem className="picoMenuItem" icon="home" text={i18n.overview} onClick={() => {handleClick('/dashboard')}} active={view === "/" || view === "/dashboard"}/>
+      <MenuItem className="picoMenuItem" icon="home" text={i18n.dashboard} onClick={() => {handleClick('/dashboard')}} active={view === "/" || view === "/dashboard"}/>
       <MenuDivider className="picoMenuDivider" title={i18n.projects}/>
       {
         user ? user.projects ? user.projects.map(project => 

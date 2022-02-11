@@ -5,7 +5,7 @@ export const i18n_fr = <i18n> {
   login: "Connexion",
   email: "E-mail",
   password: "Mot de passe",
-  overview: "Accueil",
+  dashboard: "Tableau de bord",
   projects: "Projets",
   requests: "Demandes",
   content: "Contenu",

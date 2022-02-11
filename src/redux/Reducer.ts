@@ -1,3 +1,4 @@
+import { User } from "../api/types/user"
 import { i18n_en } from "../assets/i18n/i18n_en"
 import { i18n_fr } from "../assets/i18n/i18n_fr"
 
@@ -6,7 +7,7 @@ const initialState = {
   i18n: i18n_fr,
   isLoading: true,
   isLoggedIn: 0,
-  user: {},
+  user: {} as User,
 }
 
 const createReducer = (state = initialState, action: any) => {

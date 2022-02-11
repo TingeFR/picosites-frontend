@@ -1,11 +1,11 @@
 import './App.scss';
 import { CookiesProvider } from 'react-cookie';
-import Main from './components/Main';
+import MainView from './components/views/MainView';
 
 function App() {
   return (
     <CookiesProvider>
-      <Main/>
+      <MainView/>
     </CookiesProvider>
   );
 }

@@ -1,35 +1,31 @@
 import { CSSProperties, FC, useEffect, useState } from 'react';
-import { i18n } from '../assets/i18n/i18n';
-import { i18n_fr } from '../assets/i18n/i18n_fr';
+import { i18n } from '../../assets/i18n/i18n';
+import { i18n_fr } from '../../assets/i18n/i18n_fr';
 import { ReactCookieProps, withCookies } from 'react-cookie';
 import { useMediaQuery } from 'react-responsive'
-import { constants } from '../assets/utils'
+import { constants } from '../../assets/utils'
 import { connect, DispatchProp } from 'react-redux'
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
-import { Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
 import { HamburgerSlider } from 'react-animated-burgers';
 import { Transition } from 'react-transition-group';
-import PicoSitesLogo from '../assets/svg/PicoSitesLogo';
-import { getUserByEMail } from '../api/server';
-import PicoMenu from './PicoMenu';
+import PicoSitesLogo from '../../assets/svg/PicoSitesLogo';
+import { getUserByEMail } from '../../api/server';
+import PicoMenu from '../misc/PicoMenu';
 import moment from 'moment';
 import 'moment/locale/en-gb';
 import 'moment/locale/fr';
-import Login from "./Login";
-import NotFound from './NotFound';
-import Dashboard from './Dashboard';
+import LoginView from "./LoginView";
+import NotFoundView from './NotFoundView';
+import DashboardView from './DashboardView';
 import ProjectView from './ProjectView';
-import { User } from '../api/user';
+import { User } from '../../api/types/user';
 
-interface MainProps {
+interface MainViewProps {
   i18n: i18n,
   isLoggedIn: 0 | 1 | 2,
 }
 
-const RedirectToHome = () => <Navigate to="/"/>
-const RedirectTo404 = () => <Navigate to="/404"/>
-
-const Main:FC<MainProps & DispatchProp & ReactCookieProps> = (props) => {
+const MainView:FC<MainViewProps & DispatchProp & ReactCookieProps> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
@@ -85,7 +81,6 @@ const Main:FC<MainProps & DispatchProp & ReactCookieProps> = (props) => {
 
   useEffect(() => {
     _i18nSetLanguage("fr")
-    moment.locale("fr")
     getData()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -192,11 +187,11 @@ const Main:FC<MainProps & DispatchProp & ReactCookieProps> = (props) => {
         : ""}
 
         <Routes>
-          <Route path="/" element={isLoggedIn === 2 ? <Dashboard/> : <Login/>} />
-          <Route path="/dashboard" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <Dashboard/> : <RedirectToHome/>} />
-          <Route path="/projects/:projectId" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <ProjectView/> : <RedirectToHome/>} />
-          <Route path="/404" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <NotFound/> : <RedirectToHome/>} />
-          <Route path="*" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <RedirectTo404/> : <RedirectToHome/>} />
+          <Route path="/" element={isLoggedIn === 2 ? <DashboardView/> : <LoginView/>} />
+          <Route path="/dashboard" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <DashboardView/> : <Navigate to="/"/>} />
+          <Route path="/projects/:projectId" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <ProjectView/> : <Navigate to="/"/>} />
+          <Route path="/404" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <NotFoundView/> : <Navigate to="/"/>} />
+          <Route path="*" element={isLoggedIn === 0 ? "" : isLoggedIn === 2 ? <Navigate to="/404"/> : <Navigate to="/"/>} />
         </Routes>
       </BrowserRouter>
     </div>
@@ -211,4 +206,4 @@ const mapStateToProps = (state: any) => {
     }
   }
   
-export default connect(mapStateToProps)(withCookies(Main))
+export default connect(mapStateToProps)(withCookies(MainView))

@@ -1,23 +1,23 @@
 import { CSSProperties, FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive'
-import { constants } from '../assets/utils'
+import { constants } from '../../assets/utils'
 import { connect, DispatchProp } from 'react-redux'
-import { Text, Colors, Spinner, Card, H5, Tag, ButtonGroup, Divider } from "@blueprintjs/core";
+import { Colors, Spinner, Card, H5, Tag, ButtonGroup, Divider } from "@blueprintjs/core";
 import moment from 'moment';
-import { i18n } from '../assets/i18n/i18n';
-import { User } from '../api/user';
-import { i18n_fr } from '../assets/i18n/i18n_fr';
-import { Project } from '../api/project';
-import TopBar from './TopBar';
+import { i18n } from '../../assets/i18n/i18n';
+import { User } from '../../api/types/user';
+import { i18n_fr } from '../../assets/i18n/i18n_fr';
+import { Project } from '../../api/types/project';
+import TopBar from '../misc/TopBar';
 
-interface DashboardProps {
+interface DashboardViewProps {
   i18n: i18n,
   user: User,
   isLoading: boolean,
 }
 
-const Dashboard:FC<DashboardProps & DispatchProp> = (props) => {
+const DashboardView:FC<DashboardViewProps & DispatchProp> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
@@ -45,6 +45,10 @@ const Dashboard:FC<DashboardProps & DispatchProp> = (props) => {
   const [user, setUser] = useState<User>()
   const [isLoading, setIsLoading] = useState(true)
   let navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = `${i18n.dashboard} - PicoSites`
+  }, [])
 
   useEffect(() => {
     seti18n(props.i18n)
@@ -115,4 +119,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(DashboardView);

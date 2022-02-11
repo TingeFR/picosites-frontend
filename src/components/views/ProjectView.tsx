@@ -1,23 +1,23 @@
 import { CSSProperties, FC, useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive'
-import { constants } from '../assets/utils'
+import { constants } from '../../assets/utils'
 import { connect, DispatchProp } from 'react-redux'
-import { Text, Icon, Colors, Spinner, Card, Button, AnchorButton } from "@blueprintjs/core";
-import TopBar from './TopBar';
+import { Text, Icon, Colors, Spinner, Card, AnchorButton } from "@blueprintjs/core";
+import TopBar from '../misc/TopBar';
 import moment from 'moment';
-import { i18n } from '../assets/i18n/i18n';
-import { User } from '../api/user';
-import { i18n_fr } from '../assets/i18n/i18n_fr';
-import { Project } from '../api/project';
+import { i18n } from '../../assets/i18n/i18n';
+import { User } from '../../api/types/user';
+import { i18n_fr } from '../../assets/i18n/i18n_fr';
+import { Project } from '../../api/types/project';
 
-interface ProjectProps {
+interface ProjectViewProps {
   i18n: i18n,
   user: User,
   isLoading: boolean,
 }
 
-const ProjectView:FC<ProjectProps & DispatchProp> = (props) => {
+const ProjectView:FC<ProjectViewProps & DispatchProp> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
@@ -74,11 +74,9 @@ const ProjectView:FC<ProjectProps & DispatchProp> = (props) => {
   }
 
   const [i18n, seti18n] = useState(i18n_fr)
-  const [user, setUser] = useState<User>()
   const [project, setProject] = useState<Project>()
   const [isLoading, setIsLoading] = useState(true)
   let navigate = useNavigate()
-  let location = useLocation()
   let params = useParams()
 
   useEffect(() => {
@@ -90,12 +88,10 @@ const ProjectView:FC<ProjectProps & DispatchProp> = (props) => {
   }, [props.i18n])
 
   useEffect(() => {
-    setUser(props.user)
     getData()
   }, [props.user])
 
   useEffect(() => {
-    setUser(props.user)
     getData()
   }, [params])
 
@@ -113,6 +109,7 @@ const ProjectView:FC<ProjectProps & DispatchProp> = (props) => {
       const dataProject = props.user.projects.find(p => p.id.toString() === projectId)
       if(dataProject){
         setProject(dataProject)
+        document.title = `${dataProject.name} - PicoSites`
       }
     }
   }

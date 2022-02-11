@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "./user";
+import { User } from "./types/user";
 
 var prefix = ""
 if(process.env.NODE_ENV === "production"){

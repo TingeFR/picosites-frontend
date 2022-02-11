@@ -1,16 +1,16 @@
 import { CSSProperties, FC, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive'
-import { constants } from '../assets/utils'
+import { constants } from '../../assets/utils'
 import { connect, DispatchProp } from 'react-redux'
 import { Colors } from "@blueprintjs/core";
-import { i18n } from '../assets/i18n/i18n';
-import { i18n_fr } from '../assets/i18n/i18n_fr';
+import { i18n } from '../../assets/i18n/i18n';
+import { i18n_fr } from '../../assets/i18n/i18n_fr';
 
-interface NotFoundProps {
+interface NotFoundViewProps {
   i18n: i18n
 }
 
-const NotFound:FC<NotFoundProps & DispatchProp> = (props) => {
+const NotFoundView:FC<NotFoundViewProps & DispatchProp> = (props) => {
 
   const isDesktop = useMediaQuery({ minWidth: constants.DESKTOP_TO_MOBILE + 1 })
 
@@ -28,6 +28,10 @@ const NotFound:FC<NotFoundProps & DispatchProp> = (props) => {
   }
 
   const [i18n, seti18n] = useState(i18n_fr)
+
+  useEffect(() => {
+    document.title = "404 - PicoSites"
+  }, [])
 
   useEffect(() => {
     seti18n(props.i18n)
@@ -49,4 +53,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-export default connect(mapStateToProps)(NotFound);
+export default connect(mapStateToProps)(NotFoundView);
