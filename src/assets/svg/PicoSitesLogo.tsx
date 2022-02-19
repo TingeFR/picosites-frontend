@@ -1,9 +1,11 @@
-function PicoSitesLogo(props) {
+import { CustomIconProps } from "./Icon";
 
-  function handleClick(e){
-    e.preventDefault();
+const PicoSitesLogo = (props: CustomIconProps) => {
+
+  const handleClick = (event: any) => {
+    event.preventDefault();
     if(props.onClick){
-      props.onClick();
+      props.onClick()
     }
   }
 
